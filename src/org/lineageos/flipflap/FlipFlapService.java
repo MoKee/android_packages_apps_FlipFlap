@@ -28,7 +28,7 @@ import android.os.IBinder;
 import android.os.UEventObserver;
 import android.util.Log;
 
-import org.cyanogenmod.internal.util.FileUtils;
+import org.mokee.internal.util.FileUtils;
 
 public class FlipFlapService extends Service {
 
