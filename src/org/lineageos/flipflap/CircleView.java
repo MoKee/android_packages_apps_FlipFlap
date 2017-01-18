@@ -24,36 +24,19 @@ import android.content.Context;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-public class CircleView extends RelativeLayout implements FlipFlapView {
-    private static final String TAG = "CircleView";
+import java.util.List;
 
-    private final Context mContext;
+public class CircleView extends FlipFlapView {
+    private static final String TAG = "CircleView";
 
     private ClockPanel mClockPanel;
 
     public CircleView(Context context) {
         super(context);
 
-        mContext = context;
-
-        inflate(mContext, R.layout.circle_view, this);
+        inflate(context, R.layout.circle_view, this);
 
         mClockPanel = (ClockPanel) findViewById(R.id.clock_panel);
         mClockPanel.bringToFront();
-    }
-
-    @Override
-    public boolean supportsAlarmActions() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsCallActions() {
-        return false;
-    }
-
-    @Override
-    public float getScreenBrightness() {
-        return 0.5f;
     }
 }

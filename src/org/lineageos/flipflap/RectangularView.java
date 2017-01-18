@@ -25,10 +25,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-public class RectangularView extends RelativeLayout implements FlipFlapView {
-    private static final String TAG = "RectangularView";
+import java.util.List;
 
-    private final Context mContext;
+public class RectangularView extends FlipFlapView {
+    private static final String TAG = "RectangularView";
 
     private RectangularBatteryView mBatteryView;
     private ClockPanel mClockPanel;
@@ -36,35 +36,11 @@ public class RectangularView extends RelativeLayout implements FlipFlapView {
     public RectangularView(Context context) {
         super(context);
 
-        mContext = context;
-
-        inflate(mContext, R.layout.rectangular_view, this);
+        inflate(context, R.layout.rectangular_view, this);
 
         mBatteryView = (RectangularBatteryView) findViewById(R.id.rectangular_battery);
 
         mClockPanel = (ClockPanel) findViewById(R.id.clock_panel);
         mClockPanel.bringToFront();
-    }
-
-    @Override
-    public void postInvalidate() {
-        mBatteryView.postInvalidate();
-        mClockPanel.postInvalidate();
-        super.postInvalidate();
-    }
-
-    @Override
-    public boolean supportsAlarmActions() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsCallActions() {
-        return false;
-    }
-
-    @Override
-    public float getScreenBrightness() {
-        return 0.5f;
     }
 }
