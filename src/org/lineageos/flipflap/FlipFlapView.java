@@ -25,20 +25,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.os.UserHandle;
-import android.provider.ContactsContract;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.telecom.TelecomManager;
@@ -49,7 +46,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -66,7 +62,6 @@ public class FlipFlapView extends FrameLayout {
     private SensorManager mSensorManager;
     private TelecomManager mTelecomManager;
     private boolean mAlarmActive;
-    private boolean mRinging;
     private boolean mProximityNear;
 
     public FlipFlapView(Context context) {
@@ -111,8 +106,29 @@ public class FlipFlapView extends FrameLayout {
         mAlarmActive = active;
     }
 
-    protected void updateRingingState(boolean ringing, String name, String number) {
-        mRinging = ringing;
+    protected void dismissAlarm() {
+        getContext().sendBroadcast(new Intent(FlipFlapUtils.ACTION_ALARM_DISMISS));
+        updateAlarmState(false);
+    }
+
+    protected void snoozeAlarm() {
+        getContext().sendBroadcast(new Intent(FlipFlapUtils.ACTION_ALARM_SNOOZE));
+        updateAlarmState(false);
+    }
+
+    protected void updateProximityState(boolean isNear) {
+        mProximityNear = isNear;
+    }
+
+    protected void updateCallState(CallState callState) {
+    }
+
+    protected void acceptRingingCall() {
+        mTelecomManager.acceptRingingCall();
+    }
+
+    protected void endCall() {
+        mTelecomManager.endCall();
     }
 
     @Override
@@ -184,7 +200,7 @@ public class FlipFlapView extends FrameLayout {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-                mProximityNear = event.values[0] < event.sensor.getMaximumRange();
+                updateProximityState(event.values[0] < event.sensor.getMaximumRange());
             }
         }
 
@@ -193,17 +209,6 @@ public class FlipFlapView extends FrameLayout {
             // Do nothing
         }
     };
-
-    private static String normalize(String str) {
-        return Normalizer.normalize(str.toLowerCase(), Normalizer.Form.NFD)
-                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                .replaceAll("æ", "ae")
-                .replaceAll("ð", "d")
-                .replaceAll("ø", "o")
-                .replaceAll("þ", "th")
-                .replaceAll("ß", "ss")
-                .replaceAll("œ", "oe");
-    }
 
     private final GestureDetector.SimpleOnGestureListener mGestureListener =
             new GestureDetector.SimpleOnGestureListener() {
@@ -224,31 +229,6 @@ public class FlipFlapView extends FrameLayout {
         public boolean onSingleTapConfirmed(MotionEvent e) {
             return true;
         }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if (Math.abs(distanceY) < 60) {
-                // Did not meet the threshold for a scroll
-                return true;
-            }
-
-            if (supportsCallActions() && mRinging) {
-                if (distanceY < 60) {
-                    mTelecomManager.endCall();
-                } else if (distanceY > 60) {
-                    mTelecomManager.acceptRingingCall();
-                }
-            } else if (supportsAlarmActions() && mAlarmActive) {
-                if (distanceY < 60) {
-                    getContext().sendBroadcast(new Intent(FlipFlapUtils.ACTION_ALARM_DISMISS));
-                    updateAlarmState(false);
-                } else if (distanceY > 60) {
-                    getContext().sendBroadcast(new Intent(FlipFlapUtils.ACTION_ALARM_SNOOZE));
-                    updateAlarmState(false);
-                }
-            }
-            return true;
-        }
     };
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -258,29 +238,8 @@ public class FlipFlapView extends FrameLayout {
             if (TelephonyManager.ACTION_PHONE_STATE_CHANGED.equals(action) &&
                     supportsCallActions()) {
                 String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                    String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                    Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
-                            Uri.encode(number));
-                    Cursor cursor = context.getContentResolver().query(uri,
-                            new String[] { ContactsContract.PhoneLookup.DISPLAY_NAME },
-                            number, null, null);
-                    String name = cursor != null && cursor.moveToFirst()
-                            ? cursor.getString(0) : "";
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-
-                    if (number.equalsIgnoreCase("restricted")) {
-                        // If call is restricted, don't show a number
-                        name = number;
-                        number = "";
-                    }
-
-                    updateRingingState(true, normalize(name), number);
-                } else {
-                    updateRingingState(false, null, null);
-                }
+                String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                updateCallState(new CallState(context, state, number));
             } else if (FlipFlapUtils.ACTION_ALARM_ALERT.equals(action) && supportsAlarmActions()) {
                 // add other alarm apps here
                 updateAlarmState(true);
