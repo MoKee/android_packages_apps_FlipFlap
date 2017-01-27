@@ -22,24 +22,21 @@ package org.lineageos.flipflap;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-public class ClockPanel extends LinearLayout {
-    private static final String TAG = "ClockPanel";
+public class PhonePanel extends RelativeLayout {
+    private static final String TAG = "AlarmPanel";
 
-    private final Context mContext;
-
-    public ClockPanel(Context context) {
+    public PhonePanel(Context context) {
         this(context, null);
     }
 
-    public ClockPanel(Context context, AttributeSet attrs) {
+    public PhonePanel(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ClockPanel(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PhonePanel(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        mContext = context;
     }
 }

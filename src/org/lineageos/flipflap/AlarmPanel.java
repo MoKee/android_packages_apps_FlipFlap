@@ -20,22 +20,22 @@
 
 package org.lineageos.flipflap;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.provider.Settings;
-import android.util.Log;
+import android.util.AttributeSet;
+import android.widget.RelativeLayout;
 
-public class BootCompletedReceiver extends BroadcastReceiver {
-    static final String TAG = "FlipFlap";
+public class AlarmPanel extends RelativeLayout {
+    private static final String TAG = "AlarmPanel";
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Booting ");
-        Settings.Secure.putString(context.getContentResolver(),
-                Settings.Secure.IMMERSIVE_MODE_CONFIRMATIONS,
-                "org.lineageos.quickcover");
+    public AlarmPanel(Context context) {
+        this(context, null);
+    }
 
-        context.startService(new Intent(context, FlipFlapService.class));
+    public AlarmPanel(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public AlarmPanel(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 }

@@ -59,10 +59,12 @@ public class FlipFlapView extends FrameLayout {
 
     private GestureDetector mDetector;
     private PowerManager mPowerManager;
+    private PowerManager.WakeLock mWakeLock;
     private SensorManager mSensorManager;
     private TelecomManager mTelecomManager;
     private boolean mAlarmActive;
     private boolean mProximityNear;
+    private boolean mNotificationListenerRegistered;
 
     public FlipFlapView(Context context) {
         super(context);
@@ -77,6 +79,9 @@ public class FlipFlapView extends FrameLayout {
         mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mTelecomManager = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, TAG);
+        mWakeLock.setReferenceCounted(false);
     }
 
     protected boolean canUseProximitySensor() {
@@ -138,6 +143,7 @@ public class FlipFlapView extends FrameLayout {
         IntentFilter filter = new IntentFilter();
         filter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
         filter.addAction(FlipFlapUtils.ACTION_ALARM_ALERT);
+        filter.addAction(FlipFlapUtils.ACTION_ALARM_DONE);
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         getContext().registerReceiver(mReceiver, filter);
@@ -146,6 +152,7 @@ public class FlipFlapView extends FrameLayout {
             try {
                 mNotificationListener.registerAsSystemService(getContext(),
                         new ComponentName(getContext(), getClass()), UserHandle.USER_ALL);
+                mNotificationListenerRegistered = true;
             } catch (RemoteException e) {
                 Log.e(TAG, "Unable to register notification listener", e);
             }
@@ -169,6 +176,7 @@ public class FlipFlapView extends FrameLayout {
         if (supportsNotifications()) {
             try {
                 mNotificationListener.unregisterAsSystemService();
+                mNotificationListenerRegistered = false;
             } catch (RemoteException e) {
                 // Ignore.
             }
@@ -214,7 +222,7 @@ public class FlipFlapView extends FrameLayout {
             new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            if (mPowerManager.isInteractive()) {
+            if (mPowerManager.isInteractive() && !mAlarmActive) {
                 mPowerManager.goToSleep(SystemClock.uptimeMillis());
             }
             return true;
@@ -243,6 +251,10 @@ public class FlipFlapView extends FrameLayout {
             } else if (FlipFlapUtils.ACTION_ALARM_ALERT.equals(action) && supportsAlarmActions()) {
                 // add other alarm apps here
                 updateAlarmState(true);
+                mWakeLock.acquire();
+            } else if (FlipFlapUtils.ACTION_ALARM_DONE.equals(action)) {
+                updateAlarmState(false);
+                mWakeLock.release();
             } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
                 postScreenOff();
             }
@@ -287,6 +299,10 @@ public class FlipFlapView extends FrameLayout {
         }
 
         private void handleNotificationUpdate(RankingMap ranking) {
+            if (!mNotificationListenerRegistered) {
+                return;
+            }
+
             mRankingMap = ranking;
 
             List<StatusBarNotification> notifications = Arrays.asList(getActiveNotifications());
@@ -309,7 +325,9 @@ public class FlipFlapView extends FrameLayout {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case COVER_CLOSED_MSG:
-                    mPowerManager.goToSleep(SystemClock.uptimeMillis());
+                    if (!mAlarmActive) {
+                        mPowerManager.goToSleep(SystemClock.uptimeMillis());
+                    }
                     break;
             }
         }

@@ -20,26 +20,27 @@
 
 package org.lineageos.flipflap;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.content.Intent;
+import android.util.Log;
+import android.view.WindowManagerPolicy.WindowManagerFuncs;
 
-public class ClockPanel extends LinearLayout {
-    private static final String TAG = "ClockPanel";
+public class EventReceiver extends BroadcastReceiver {
+    static final String TAG = "FlipFlap";
 
-    private final Context mContext;
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (mokee.content.Intent.ACTION_LID_STATE_CHANGED.equals(intent.getAction())) {
+            int lidState = intent.getIntExtra(mokee.content.Intent.EXTRA_LID_STATE, -1);
+            Log.d(TAG, "Got lid state change event, new state " + lidState);
 
-    public ClockPanel(Context context) {
-        this(context, null);
-    }
-
-    public ClockPanel(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public ClockPanel(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        mContext = context;
+            Intent serviceIntent = new Intent(context, FlipFlapService.class);
+            if (lidState == WindowManagerFuncs.LID_CLOSED) {
+                context.startService(serviceIntent);
+            } else {
+                context.stopService(serviceIntent);
+            }
+        }
     }
 }

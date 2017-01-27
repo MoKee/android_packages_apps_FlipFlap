@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <supports-screens android:anyDensity="true" />
 
@@ -22,12 +23,14 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Settings">
 
-        <receiver android:name=".BootCompletedReceiver">
+        <receiver android:name=".EventReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="mokee.intent.action.LID_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".FlipFlapService" />
+        <service
+            android:name=".FlipFlapService"
+            android:exported="false" />
     </application>
 </manifest>
