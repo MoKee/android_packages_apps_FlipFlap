@@ -26,6 +26,8 @@ import android.preference.PreferenceManager;
 
 import com.android.internal.util.ArrayUtils;
 
+import mokee.hardware.MKHardwareManager;
+
 public class FlipFlapUtils {
 
     static final String OUR_PACKAGE_NAME = "org.lineageos.flipflap";
@@ -82,4 +84,10 @@ public class FlipFlapUtils {
     public static SharedPreferences getPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
+
+    public static boolean getHighTouchSensitivitySupported(Context context) {
+        final MKHardwareManager hardware = MKHardwareManager.getInstance(context);
+        return hardware.isSupported(MKHardwareManager.FEATURE_HIGH_TOUCH_SENSITIVITY);
+    }
+
 }
