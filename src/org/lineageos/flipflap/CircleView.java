@@ -24,8 +24,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CircleView extends FlipFlapView {
@@ -38,9 +40,9 @@ public class CircleView extends FlipFlapView {
     private PhonePanel mPhonePanel;
     private ImageButton mAlarmSnoozeButton;
     private ImageButton mAlarmDismissButton;
-    private ImageButton mAnswerCallButton;
-    private ImageButton mIgnoreCallButton;
-    private ImageButton mEndCallButton;
+    private RelativeLayout mAnswerCallButton;
+    private RelativeLayout mIgnoreCallButton;
+    private TextView mEndCallText;
     private TextView mIncomingCallName;
     private TextView mIncomingCallNumber;
     private boolean mRinging;
@@ -61,9 +63,9 @@ public class CircleView extends FlipFlapView {
 
         mIncomingCallName = (TextView) findViewById(R.id.incoming_call_name);
         mIncomingCallNumber = (TextView) findViewById(R.id.incoming_call_number);
-        mAnswerCallButton = (ImageButton) findViewById(R.id.answer_button);
-        mIgnoreCallButton = (ImageButton) findViewById(R.id.ignore_button);
-        mEndCallButton = (ImageButton) findViewById(R.id.end_call_button);
+        mAnswerCallButton = (RelativeLayout) findViewById(R.id.answer_button);
+        mIgnoreCallButton = (RelativeLayout) findViewById(R.id.ignore_button);
+        mEndCallText = (TextView) findViewById(R.id.ignore_text);
         mAnswerCallButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,12 +73,6 @@ public class CircleView extends FlipFlapView {
             }
         });
         mIgnoreCallButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                endCall();
-            }
-        });
-        mEndCallButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 endCall();
@@ -121,12 +117,13 @@ public class CircleView extends FlipFlapView {
         super.updateCallState(callState);
         mRinging = callState.isRinging();
         mCallActive = callState.isActive();
-        mIncomingCallName.setText (mRinging ? callState.getName() : null);
-        mIncomingCallNumber.setText(mRinging ? callState.getNumber() : null);
+        mIncomingCallName.setText (mCallActive ? callState.getName() : null);
+        mIncomingCallNumber.setText(mCallActive ? callState.getNumber() : null);
         updateViewVisibility();
     }
 
     private void updateViewVisibility() {
+        String nextAlarm = mNextAlarmPanel.getNextAlarm();
         mClockPanel.setVisibility(View.VISIBLE);
 
         if (mRinging || mCallActive) {
@@ -136,21 +133,19 @@ public class CircleView extends FlipFlapView {
             mNextAlarmPanel.setVisibility(View.GONE);
             if (mRinging) {
                 mAnswerCallButton.setVisibility(View.VISIBLE);
-                mIgnoreCallButton.setVisibility(View.VISIBLE);
-                mEndCallButton.setVisibility(View.GONE);
+                mEndCallText.setText(getResources().getString(R.string.ignore_call));
             } else {
                 mAnswerCallButton.setVisibility(View.GONE);
-                mIgnoreCallButton.setVisibility(View.GONE);
-                mEndCallButton.setVisibility(View.VISIBLE);
+                mEndCallText.setText(getResources().getString(R.string.end_call));
             }
         } else if (mAlarmActive) {
             mDatePanel.setVisibility(View.VISIBLE);
-            mNextAlarmPanel.setVisibility(View.VISIBLE);
+            mNextAlarmPanel.setVisibility(TextUtils.isEmpty(nextAlarm) ? View.GONE : View.VISIBLE);
             mAlarmPanel.setVisibility(View.VISIBLE);
             mPhonePanel.setVisibility(View.GONE);
         } else {
             mDatePanel.setVisibility(View.VISIBLE);
-            mNextAlarmPanel.setVisibility(View.VISIBLE);
+            mNextAlarmPanel.setVisibility(TextUtils.isEmpty(nextAlarm) ? View.GONE : View.VISIBLE);
             mAlarmPanel.setVisibility(View.GONE);
             mPhonePanel.setVisibility(View.GONE);
         }

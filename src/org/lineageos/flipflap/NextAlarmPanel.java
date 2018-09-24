@@ -25,10 +25,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -101,11 +99,9 @@ public class NextAlarmPanel extends LinearLayout {
     private void refreshAlarmStatus() {
         String nextAlarm = getNextAlarm();
         mAlarmText.setText(nextAlarm);
-        setVisibility(TextUtils.isEmpty(nextAlarm)
-                ? View.GONE : View.VISIBLE);
     }
 
-    private String getNextAlarm() {
+    public String getNextAlarm() {
         AlarmManager.AlarmClockInfo nextAlarmClock = mAlarmManager.getNextAlarmClock();
         if (nextAlarmClock != null) {
             String skeleton = DateFormat.is24HourFormat(mContext) ? "EHm" : "Ehma";
