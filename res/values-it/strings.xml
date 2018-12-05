@@ -41,7 +41,7 @@
     <string name="category_timeouts">Timeout</string>
     <string name="timeout_plugged_title">Durante la ricarica</string>
     <string name="timeout_unplugged_title">Scollegato</string>
-    <string name="timeout_summary">Visualizza l\'app per la cover %s secondi dopo la chiusura</string>
+    <string name="timeout_summary">Visualizza l\'app per la cover %s secondi dopo la chiusura </string>
     <string name="timeout_summary_never">Dopo la chiusura della cover, l\'app rimarrà attiva</string>
     <string name="timeout_summary_immediately">Lo schermo si spegnerà quando chiuderai la cover</string>
     <string name="timeout_entry_immediately">Subito</string>
