@@ -28,6 +28,8 @@
     <string name="ignore_call">INORAR</string>
     <string name="end_call">FINAR LLAMADA</string>
     <!-- Strings for the Settings -->
+    <string name="settings_name">Carcaxa intelixente</string>
+    <string name="settings_summary">Controla\'l comportamientu del accesoriu</string>
     <string name="category_behaviour">Comportamientu</string>
     <string name="pass_to_security_view_title">Dir direutamente a la contraseña</string>
     <string name="pass_to_security_view_summary">Abrir la tapa amuesa direutamente la pantalla de bloquéu</string>
