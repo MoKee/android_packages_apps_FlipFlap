@@ -19,9 +19,9 @@
  *
  */
 
-package org.lineageos.flipflap;
+package org.mokee.flipflap;
 
-import org.lineageos.flipflap.DotcaseConstants.Notification;
+import org.mokee.flipflap.DotcaseConstants.Notification;
 
 import android.content.Context;
 import android.content.Intent;

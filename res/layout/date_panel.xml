@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.lineageos.flipflap.DatePanel xmlns:android="http://schemas.android.com/apk/res/android"
+<org.mokee.flipflap.DatePanel xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center" >
@@ -13,4 +13,4 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="@color/clock_white" />
-</org.lineageos.flipflap.DatePanel>
+</org.mokee.flipflap.DatePanel>

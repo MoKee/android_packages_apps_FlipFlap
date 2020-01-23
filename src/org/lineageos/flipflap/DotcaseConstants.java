@@ -19,7 +19,7 @@
  *
  */
 
-package org.lineageos.flipflap;
+package org.mokee.flipflap;
 
 import android.graphics.Color;
 

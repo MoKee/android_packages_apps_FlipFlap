@@ -24,7 +24,7 @@
     android:layout_marginTop="@dimen/y_offset"
     android:layout_gravity="center_horizontal|top">
 
-    <org.lineageos.flipflap.CircleBatteryView
+    <org.mokee.flipflap.CircleBatteryView
         android:id="@+id/circle_battery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

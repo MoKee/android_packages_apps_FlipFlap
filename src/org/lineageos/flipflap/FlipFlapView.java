@@ -18,7 +18,7 @@
  *
  */
 
-package org.lineageos.flipflap;
+package org.mokee.flipflap;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -52,8 +52,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.lineageos.internal.util.LineageLockPatternUtils;
-import lineageos.providers.LineageSettings;
+import org.mokee.internal.util.MKLockPatternUtils;
+import mokee.providers.MKSettings;
 
 public class FlipFlapView extends FrameLayout {
     private static final String TAG = "FlipFlapView";
@@ -408,30 +408,30 @@ public class FlipFlapView extends FrameLayout {
     }
 
     private boolean shouldPassToSecurityView() {
-        LineageLockPatternUtils llpu = new LineageLockPatternUtils(mContext);
+        MKLockPatternUtils llpu = new MKLockPatternUtils(mContext);
         return llpu.shouldPassToSecurityView(getUserId());
     }
 
     private void setPassToSecurityView(boolean enabled) {
-        LineageLockPatternUtils llpu = new LineageLockPatternUtils(mContext);
+        MKLockPatternUtils llpu = new MKLockPatternUtils(mContext);
         llpu.setPassToSecurityView(enabled, getUserId());
     }
 
     private void checkHighTouchSensitivity() {
         if (shouldUseHighTouchSensitivity() &&
                 FlipFlapUtils.getHighTouchSensitivitySupported(getContext())) {
-            mUserHighTouchState = LineageSettings.System.getInt(mContext.getContentResolver(),
-                    LineageSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 0);
-            LineageSettings.System.putInt(mContext.getContentResolver(),
-                    LineageSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 1);
+            mUserHighTouchState = MKSettings.System.getInt(mContext.getContentResolver(),
+                    MKSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 0);
+            MKSettings.System.putInt(mContext.getContentResolver(),
+                    MKSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 1);
         }
     }
 
     private void restoreHighTouchSensitivity() {
         if (shouldUseHighTouchSensitivity() &&
                 FlipFlapUtils.getHighTouchSensitivitySupported(getContext())) {
-            LineageSettings.System.putInt(mContext.getContentResolver(),
-                    LineageSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, mUserHighTouchState);
+            MKSettings.System.putInt(mContext.getContentResolver(),
+                    MKSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, mUserHighTouchState);
         }
     }
 

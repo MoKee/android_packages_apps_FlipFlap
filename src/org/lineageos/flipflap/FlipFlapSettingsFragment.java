@@ -18,7 +18,7 @@
  *
  */
 
-package org.lineageos.flipflap;
+package org.mokee.flipflap;
 
 import android.app.ActionBar;
 import android.content.ComponentName;
@@ -42,7 +42,7 @@ import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 
-import org.lineageos.flipflap.R;
+import org.mokee.flipflap.R;
 
 public class FlipFlapSettingsFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener, CompoundButton.OnCheckedChangeListener {

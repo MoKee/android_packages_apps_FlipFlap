@@ -25,7 +25,7 @@
     android:layout_height="@dimen/rectangular_window_height"
     android:layout_gravity="left">
 
-    <org.lineageos.flipflap.RectangularBatteryView
+    <org.mokee.flipflap.RectangularBatteryView
         android:id="@+id/rectangular_battery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

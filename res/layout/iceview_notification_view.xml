@@ -17,7 +17,7 @@
  Also add information on how to contact you by electronic and paper mail.
 
 -->
-<org.lineageos.flipflap.IceviewNotificationView
+<org.mokee.flipflap.IceviewNotificationView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -57,4 +57,4 @@
                 android:paddingLeft="@dimen/iceview_notification_description_padding" />
         </LinearLayout>
     </LinearLayout>
-</org.lineageos.flipflap.IceviewNotificationView>
+</org.mokee.flipflap.IceviewNotificationView>

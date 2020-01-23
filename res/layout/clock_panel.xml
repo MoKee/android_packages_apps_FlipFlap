@@ -19,7 +19,7 @@
 -->
 
 <!-- digital clock for the digital widget -->
-<org.lineageos.flipflap.ClockPanel xmlns:android="http://schemas.android.com/apk/res/android"
+<org.mokee.flipflap.ClockPanel xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -47,4 +47,4 @@
             android:layout_gravity="top|center"
             android:textColor="@color/clock_white" />
     </LinearLayout>
-</org.lineageos.flipflap.ClockPanel>
+</org.mokee.flipflap.ClockPanel>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.lineageos.flipflap.NextAlarmPanel xmlns:android="http://schemas.android.com/apk/res/android"
+<org.mokee.flipflap.NextAlarmPanel xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center" >
@@ -20,4 +20,4 @@
         style="@style/alarm_label_thin"
         android:layout_marginLeft="4dip"
         android:gravity="center" />
-</org.lineageos.flipflap.NextAlarmPanel>
+</org.mokee.flipflap.NextAlarmPanel>

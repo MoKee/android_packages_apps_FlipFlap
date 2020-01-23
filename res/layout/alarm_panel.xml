@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.lineageos.flipflap.AlarmPanel xmlns:android="http://schemas.android.com/apk/res/android"
+<org.mokee.flipflap.AlarmPanel xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -44,4 +44,4 @@
         android:layout_below="@id/alarm_alert_icon"
         android:text="@string/alarm_label"
         android:textAlignment="center" />
-</org.lineageos.flipflap.AlarmPanel>
+</org.mokee.flipflap.AlarmPanel>

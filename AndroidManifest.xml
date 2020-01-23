@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.lineageos.flipflap"
+    package="org.mokee.flipflap"
     android:versionCode="1"
     android:versionName="1.0"
     android:sharedUserId="android.uid.system">
@@ -29,7 +29,7 @@
 
         <receiver android:name=".EventReceiver">
             <intent-filter>
-                <action android:name="lineageos.intent.action.LID_STATE_CHANGED" />
+                <action android:name="mokee.intent.action.LID_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 

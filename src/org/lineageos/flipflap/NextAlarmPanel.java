@@ -18,7 +18,7 @@
  *
  */
 
-package org.lineageos.flipflap;
+package org.mokee.flipflap;
 
 import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
