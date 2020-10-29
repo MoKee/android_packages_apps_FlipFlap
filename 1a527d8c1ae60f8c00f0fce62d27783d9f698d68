@@ -1,0 +1,4 @@
+{
+  "pushCert": "certificate version 0.1\npusher 2ECD2531 1603981986 +0800\npushee ssh://mokeedev.review:29418/MoKee/android_packages_apps_FlipFlap\nnonce 1603981985-2A6E4EAF7C4E505B6A0132C0937AE549C35721CA\n\n0000000000000000000000000000000000000000 1a527d8c1ae60f8c00f0fce62d27783d9f698d68 refs/for/mkr\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEE/Y8fKHw84zhHjhP78iL05i7NJTEFAl+a0qIACgkQ8iL05i7N\nJTFRDggApvzXYcRM4myY+kWAHlvFS5/9PnnbteoK40qsphzQoqANH8Q/zHeezm3N\n26EYwxK3ElnjzjV9DmVfu6JNGRar2coyo07sBXMWFqmy5g30Tn+RMgQA/ElzB013\ntW9QML91diwLa27M53kOkYjUwiZTxNUszuepICaXJZcpHfm/FddtkwfqAcXj0KzO\nLdahSgfnVyiwj5K839IbAKSctQyFBAxVm4oU25ZJmvPwfZqb78t913d31IQ9wj5R\nn/6jpJnpuSA5/TVLJCZ9zWnIiu80Bp/2n6Lgd/yzKc/JFQ9OEVyiH9S3cZDGAtLJ\nK5fgKWCc3NFPNqNITw4agY4vOx+o/w\u003d\u003d\n\u003dcvL3\n-----END PGP SIGNATURE-----\n",
+  "comments": []
+}
