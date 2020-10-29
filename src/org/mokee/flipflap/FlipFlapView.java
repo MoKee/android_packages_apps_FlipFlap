@@ -52,8 +52,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.mokee.internal.util.MKLockPatternUtils;
-import mokee.providers.MKSettings;
+import org.mokee.internal.util.MoKeeLockPatternUtils;
+import mokee.providers.MoKeeSettings;
 
 public class FlipFlapView extends FrameLayout {
     private static final String TAG = "FlipFlapView";
@@ -408,30 +408,30 @@ public class FlipFlapView extends FrameLayout {
     }
 
     private boolean shouldPassToSecurityView() {
-        MKLockPatternUtils llpu = new MKLockPatternUtils(mContext);
+        MoKeeLockPatternUtils llpu = new MoKeeLockPatternUtils(mContext);
         return llpu.shouldPassToSecurityView(getUserId());
     }
 
     private void setPassToSecurityView(boolean enabled) {
-        MKLockPatternUtils llpu = new MKLockPatternUtils(mContext);
+        MoKeeLockPatternUtils llpu = new MoKeeLockPatternUtils(mContext);
         llpu.setPassToSecurityView(enabled, getUserId());
     }
 
     private void checkHighTouchSensitivity() {
         if (shouldUseHighTouchSensitivity() &&
                 FlipFlapUtils.getHighTouchSensitivitySupported(getContext())) {
-            mUserHighTouchState = MKSettings.System.getInt(mContext.getContentResolver(),
-                    MKSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 0);
-            MKSettings.System.putInt(mContext.getContentResolver(),
-                    MKSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 1);
+            mUserHighTouchState = MoKeeSettings.System.getInt(mContext.getContentResolver(),
+                    MoKeeSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 0);
+            MoKeeSettings.System.putInt(mContext.getContentResolver(),
+                    MoKeeSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, 1);
         }
     }
 
     private void restoreHighTouchSensitivity() {
         if (shouldUseHighTouchSensitivity() &&
                 FlipFlapUtils.getHighTouchSensitivitySupported(getContext())) {
-            MKSettings.System.putInt(mContext.getContentResolver(),
-                    MKSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, mUserHighTouchState);
+            MoKeeSettings.System.putInt(mContext.getContentResolver(),
+                    MoKeeSettings.System.HIGH_TOUCH_SENSITIVITY_ENABLE, mUserHighTouchState);
         }
     }
 

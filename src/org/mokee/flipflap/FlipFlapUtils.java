@@ -26,7 +26,7 @@ import android.preference.PreferenceManager;
 
 import com.android.internal.util.ArrayUtils;
 
-import mokee.hardware.MKHardwareManager;
+import mokee.hardware.MoKeeHardwareManager;
 
 public class FlipFlapUtils {
 
@@ -86,8 +86,8 @@ public class FlipFlapUtils {
     }
 
     public static boolean getHighTouchSensitivitySupported(Context context) {
-        final MKHardwareManager hardware = MKHardwareManager.getInstance(context);
-        return hardware.isSupported(MKHardwareManager.FEATURE_HIGH_TOUCH_SENSITIVITY);
+        final MoKeeHardwareManager hardware = MoKeeHardwareManager.getInstance(context);
+        return hardware.isSupported(MoKeeHardwareManager.FEATURE_HIGH_TOUCH_SENSITIVITY);
     }
 
 }
